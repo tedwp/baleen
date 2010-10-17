@@ -29,6 +29,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -71,6 +72,106 @@ public class MixListView extends ListActivity {
 	private static String searchQuery = "";
 	public static ArrayList<Marker> searchResultMarkers;
 	public static ArrayList<Marker> originalMarkerList;
+	
+	
+    private static  class MarkerAdapter extends BaseAdapter {
+        private LayoutInflater mInflater;
+
+        ArrayList<Marker> markerList = null;
+        public MarkerAdapter(Context context, ArrayList<Marker> markerList) {
+            // Cache the LayoutInflate to avoid asking for a new one each time.
+            mInflater = LayoutInflater.from(context);            
+            this.markerList = markerList;
+        }
+
+        /**
+         * The number of items in the list is determined by the number of speeches
+         * in our array.
+         *
+         * @see android.widget.ListAdapter#getCount()
+         */
+        public int getCount() {
+            return markerList.size();
+        }
+
+        /**
+         * Since the data comes from an array, just returning the index is
+         * sufficent to get at the data. If we were using a more complex data
+         * structure, we would return whatever object represents one row in the
+         * list.
+         *
+         * @see android.widget.ListAdapter#getItem(int)
+         */
+        public Object getItem(int position) {
+            return position;
+        }
+
+        /**
+         * Use the array index as a unique id.
+         *
+         * @see android.widget.ListAdapter#getItemId(int)
+         */
+        public long getItemId(int position) {
+            return position;
+        }
+
+        /**
+         * Make a view to hold each row.
+         *
+         * @see android.widget.ListAdapter#getView(int, android.view.View,
+         *      android.view.ViewGroup)
+         */
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // A MarkerItem keeps references to children views to avoid unneccessary calls
+            // to findViewById() on each row.
+            MarkerItem markerItem;
+
+            // When convertView is not null, we can reuse it directly, there is no need
+            // to reinflate it. We only inflate a new View when the convertView supplied
+            // by ListView is null.
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.markeritem, null);
+                
+                //ColorStateList colorStateList = new ColorStateList(null, null);
+                //colorStateList.valueOf(Color.argb(160, 75, 75, 75));
+                
+                // Creates a MarkerItem and store references to the two children views
+                // we want to bind data to.
+                markerItem = new MarkerItem();
+                //markerItem.userName = (TextView) convertView.findViewById(R.id.userName);
+        		//markerItem.userName.setTextColor(colorStateList);
+                markerItem.text = (TextView) convertView.findViewById(R.id.text);
+                markerItem.icon = (ImageView) convertView.findViewById(R.id.icon);
+
+                convertView.setTag(markerItem);
+            } else {
+                // Get the MarkerItem back to get fast access to the TextView
+                // and the ImageView.
+            	markerItem = (MarkerItem) convertView.getTag();
+            }
+
+            // Bind the data efficiently with the markerItem.
+            //markerItem.userName.setText(markerList.get(position).getUserName());
+            markerItem.text.setText(markerList.get(position).getTitle());
+            markerItem.icon.setImageBitmap(markerList.get(position).getBitMap());
+
+
+           	
+
+            
+
+            return convertView;
+        }
+
+			
+        public class MarkerItem {
+        	//TextView userName;
+        	TextView text;
+            ImageView icon;
+
+        }
+
+    }	
 
 	public Vector<String> getDataSourceMenu() {
 		return dataSourceMenu;
@@ -125,7 +226,7 @@ public class MixListView extends ListActivity {
 			/*add all marker items to a title and a URL Vector*/
 			for (int i = 0; i < jLayer.getMarkerCount(); i++) {
 				Marker ma = jLayer.getMarker(i);
-				listViewMenu.add(ma.getTitle());
+				//listViewMenu.add(ma.getTitle());
 				/*the website for the corresponding title*/
 				if (ma.getURL()!=null)
 					selectedItemURL.add(ma.getURL());
@@ -148,8 +249,11 @@ public class MixListView extends ListActivity {
 				getListView().addHeaderView(searchNotificationTxt);
 
 			}
-
-			setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listViewMenu));
+            
+			
+			ArrayList<Marker> markerList = jLayer.getMarkerList();
+			setListAdapter(new MarkerAdapter(this,markerList));
+			//setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listViewMenu));
 			getListView().setTextFilterEnabled(true);
 			break;
 
