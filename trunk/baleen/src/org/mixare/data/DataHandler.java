@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import org.mixare.Marker;
 import org.mixare.MixView;
+import org.mixare.image.ImageUtilities;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
@@ -24,7 +26,62 @@ public class DataHandler {
 			String URL = null;
 			if (link != null && link.length() > 0)
 				URL = "webpage:" + URLDecoder.decode(link);
+			
+
+            
+            
 			Marker ma = new Marker(title, latitude, longitude, elevation, URL);
+			
+			
+
+            
+            
+			markerList.add(ma);
+			Log.d(MixView.TAG, "Debug: DataHandler - markerList.add");
+		}
+	}
+	
+	public void createMarker(String title, double latitude, double longitude, double elevation, String link, String imageURL) {
+		Log.d(MixView.TAG, "Debug: DataHandler - createMarker");
+		if (markerList.size() < MAX_OBJECTS) {
+			String URL = null;
+			if (link != null && link.length() > 0)
+				URL = "webpage:" + URLDecoder.decode(link);
+			
+			ImageUtilities.ExpiringBitmap expiring;
+            expiring = ImageUtilities.load(imageURL);
+            Bitmap bitmap = expiring.bitmap;
+            bitmap = ImageUtilities.createProfileImage(bitmap, 88, 88);            
+            
+			Marker ma = new Marker(title, latitude, longitude, elevation, URL, bitmap);
+			
+			
+
+            
+            
+			markerList.add(ma);
+			Log.d(MixView.TAG, "Debug: DataHandler - markerList.add");
+		}
+	}
+	
+	public void createMarker(String title, double latitude, double longitude, double elevation, String link, String imageURL, String userName) {
+		Log.d(MixView.TAG, "Debug: DataHandler - createMarker");
+		if (markerList.size() < MAX_OBJECTS) {
+			String URL = null;
+			if (link != null && link.length() > 0)
+				URL = "webpage:" + URLDecoder.decode(link);
+			
+			ImageUtilities.ExpiringBitmap expiring;
+            expiring = ImageUtilities.load(imageURL);
+            Bitmap bitmap = expiring.bitmap;
+            bitmap = ImageUtilities.createProfileImage(bitmap, 88, 88);            
+            
+			Marker ma = new Marker(title, latitude, longitude, elevation, URL, bitmap, userName);
+			
+			
+
+            
+            
 			markerList.add(ma);
 			Log.d(MixView.TAG, "Debug: DataHandler - markerList.add");
 		}

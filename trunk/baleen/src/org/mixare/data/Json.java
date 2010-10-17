@@ -24,11 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.mixare.MixView;
+import org.mixare.image.ImageUtilities;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 public class Json extends DataHandler {
 //	double acc = 0.1;
+	String imageURL = null;
 
 	public void processBuzzJSONObject(JSONObject jo) throws NumberFormatException, JSONException {
 		if (jo.has("title") && jo.has("geocode") && jo.has("links")) {
@@ -48,20 +51,36 @@ public class Json extends DataHandler {
 		Double rlat = (double) randlat.nextInt(100);
 		Double rlon = (double) randlon.nextInt(100);
 //		acc = acc + 0.05;
-		Double lat = -37.7592 + (rlat/1000);
+		Double lat = 37.3 + (rlat/1000);
 //		Double lat = -37.7592 + acc;
 //		Double lat = -37.7518194444444;
 		Log.d(MixView.TAG, "processing Twitter JSON data - text: "+lat);
-		Double lon = 144.9486 + (rlon/1000);
+		Double lon = -121.75 + (rlon/1000);
 //		Double lon = 144.9486 + acc;
 //		Double lon = 144.919516666667;
 		Log.d(MixView.TAG, "processing Twitter JSON data - text: "+lon);
-		createMarker( jo.getString("text"),
-//				Double.parseDouble(coordinates.getString(0)),
-//				Double.parseDouble(coordinates.getString(1)),
-				lat,
-				lon,
-				0,null);
+		if(jo.has("profile_image_url")){
+			 imageURL= jo.getString("profile_image_url");
+			createMarker( jo.getString("text"),
+//					Double.parseDouble(coordinates.getString(0)),
+//					Double.parseDouble(coordinates.getString(1)),
+					lat,
+					lon,
+					0,
+					null,
+					imageURL,
+					jo.getString("from_user"));
+		}
+		else{
+			createMarker( jo.getString("text"),
+//					Double.parseDouble(coordinates.getString(0)),
+//					Double.parseDouble(coordinates.getString(1)),
+					lat,
+					lon,
+					0,
+					null);
+		}
+
 /*		if (jo.has("geo")&& !jo.isNull("geo")) {
 			Log.d(MixView.TAG, "processing Twitter JSON data");
 			JSONObject geo = jo.getJSONObject("geo");
@@ -129,6 +148,8 @@ public class Json extends DataHandler {
 
 						processTwitterJSONObject(jo);
 					}
+					
+
 				}
 			}
 			// Wikipedia

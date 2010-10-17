@@ -18,6 +18,10 @@
  */
 package org.mixare;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Comparator;
 
 import org.mixare.gui.PaintScreen;
@@ -28,8 +32,11 @@ import org.mixare.reality.PhysicalPlace;
 import org.mixare.render.Camera;
 import org.mixare.render.MixVector;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
+
+
 
 public class Marker {
 
@@ -60,6 +67,36 @@ public class Marker {
 
 	private Label txtLab = new Label();
 	private TextObj textBlock;
+	
+	
+	private Bitmap bitmap= null;
+	private String userName = null;
+	public Marker(String title, double latitude, double longitude, double altitude, String URL, Bitmap bitmap) {
+		super();
+
+		this.title = title;
+		this.mGeoLoc = new PhysicalPlace();
+		this.mGeoLoc.setLatitude(latitude);
+		this.mGeoLoc.setLongitude(longitude);
+		this.mGeoLoc.setAltitude(altitude);
+		this.URL = URL;
+		this.bitmap = bitmap;
+	}
+	
+	public Marker(String title, double latitude, double longitude, double altitude, String URL, Bitmap bitmap, String userName) {
+		super();
+
+		this.title = title;
+		this.mGeoLoc = new PhysicalPlace();
+		this.mGeoLoc.setLatitude(latitude);
+		this.mGeoLoc.setLongitude(longitude);
+		this.mGeoLoc.setAltitude(altitude);
+		this.URL = URL;
+		this.bitmap = bitmap;
+		this.userName = userName;
+	}
+	
+	
 	
 	public Marker(String title, double latitude, double longitude, double altitude, String URL) {
 		super();
@@ -178,8 +215,9 @@ public class Marker {
 		float maxHeight = Math.round(dw.getHeight() / 10f) + 1;
 
 		if (textBlock == null) {
-			textBlock = new TextObj(title, Math.round(maxHeight / 2f) + 1,
+			textBlock = new TextObj(userName +": " + title, Math.round(maxHeight / 2f) + 1,
 					160, dw);
+			
 		}
 
 		if (isVisible) {
@@ -198,7 +236,20 @@ public class Marker {
 				dw.setColor(Color.rgb(255, 215, 0));
 			dw.setStrokeWidth(maxHeight / 10f);
 			dw.setFill(false);
-			dw.paintCircle(cMarker.x, cMarker.y, maxHeight / 1.5f);
+			
+			if (("Twitter".equals(dataSource))&&(bitmap!=null)){
+	            dw.paintBitmap(cMarker.x-40, cMarker.y-40, bitmap);
+			}
+			else if(("Streaming".equals(dataSource))&&(bitmap!=null)){
+		            dw.paintBitmap(cMarker.x-40, cMarker.y-50, bitmap);
+
+				}
+				else{
+					dw.paintCircle(cMarker.x, cMarker.y, maxHeight / 1.5f);
+				}
+			
+			
+            
 
 			float currentAngle = MixUtils.getAngle(cMarker.x, cMarker.y, signMarker.x, signMarker.y);
 
@@ -208,6 +259,8 @@ public class Marker {
 			dw.setFill(true);
 			dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
 					/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
+			
+			
 		}
 	}
 

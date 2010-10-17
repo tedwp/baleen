@@ -13,6 +13,18 @@ public class JsonT4j extends DataHandler {
 		Log.d(MixView.TAG, "load Twitter4j JSON data - text: "+text);
 		Log.d(MixView.TAG, "load Twitter4j JSON data - lat: "+lat);
 		Log.d(MixView.TAG, "load Twitter4j JSON data - lon: "+lon);
+
 		createMarker( text, lat, lon, 0, null);
+	}
+	
+	public void load(String user, String text, double lat, double lon, String imageURL) throws NumberFormatException, JSONException {
+		Log.d(MixView.TAG, "load Twitter4j JSON data");
+		Log.d(MixView.TAG, "load Twitter4j JSON data - user: "+user);
+		Log.d(MixView.TAG, "load Twitter4j JSON data - text: "+text);
+		Log.d(MixView.TAG, "load Twitter4j JSON data - lat: "+lat);
+		Log.d(MixView.TAG, "load Twitter4j JSON data - lon: "+lon);
+		Log.d(MixView.TAG, "load Twitter4j JSON data - lon: "+imageURL);
+
+		createMarker( text, lat, lon, 0, null, imageURL);
 	}
 }
