@@ -95,6 +95,7 @@ public class MixListView extends ListActivity {
 			dataSourceMenu.add("Buzz");
 			dataSourceMenu.add(getString(DataView.SOURCE_OPENSTREETMAP));
 			dataSourceMenu.add("Own URL");
+			dataSourceMenu.add("Streaming");
 
 			dataSourceDescription = new Vector<String>();
 			dataSourceDescription.add("");
@@ -102,6 +103,7 @@ public class MixListView extends ListActivity {
 			dataSourceDescription.add("");
 			dataSourceDescription.add("(OpenStreetMap)");
 			dataSourceDescription.add("example: http://mixare.org/geotest.php");
+			dataSourceDescription.add("Twitter Streaming");
 
 			adapter = new ListItemAdapter(this);
 			adapter.colorSource(getDataSource());
@@ -330,6 +332,12 @@ public class MixListView extends ListActivity {
 			setDataSource("OwnURL");
 			finish();
 			break;
+			
+			/*STREAMING*/
+		case 5:
+			setDataSource("Streaming");
+			finish();
+			break;
 		}
 	}
 
@@ -495,6 +503,8 @@ class ListItemAdapter extends BaseAdapter {
 		else if (source.equals("OpenStreetMap"))
 			changeColor(3, Color.WHITE, Color.DKGRAY);
 		else if (source.equals("OwnURL"))
+			changeColor(4, Color.WHITE, Color.DKGRAY);
+		else if (source.equals("Streaming"))
 			changeColor(4, Color.WHITE, Color.DKGRAY);
 	}
 

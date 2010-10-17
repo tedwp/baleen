@@ -130,6 +130,7 @@ public class DataView {
 	public static final int DATA_SOURCE_CHANGE_TWITTER = R.string.data_source_change_twitter;
 	public static final int DATA_SOURCE_CHANGE_BUZZ = R.string.data_source_change_buzz;
 	public static final int DATA_SOURCE_CHANGE_OSM = R.string.data_source_change_osm;
+	public static final int DATA_SOURCE_CHANGE_STREAMING = R.string.data_source_change_streaming;
 	public static final int SEARCH_FAILED_NOTIFICATION = R.string.search_failed_notification;
 	public static final int SOURCE_OPENSTREETMAP=R.string.source_openstreetmap;
 	public static final int SEARCH_ACTIVE_1=R.string.search_active_1;
@@ -223,12 +224,22 @@ public class DataView {
 	public void draw(PaintScreen dw) {
 		Log.d(MixView.TAG, "Debug: DataView - draw entered");
 		mixContext.getRM(cam.transform);
+//		curFix = mixContext.getCurrentLocation();
+		// set location to San Francisco for testing
+		mixContext.getCurrentLocation().setLatitude(37.3);
+		mixContext.getCurrentLocation().setLongitude(-122.25);
 		curFix = mixContext.getCurrentLocation();
-
+		
 		state.calcPitchBearing(cam.transform);
+		
+		if ("Streaming".equals(MixListView.getDataSource())) {
+			dataHandler = (DataHandler) mixContext.getStreaming().getLayer();
+			Log.d(MixView.TAG, "Debug: DataView - dataHandler size: " + dataHandler.getMarkerCount());
+		} else {
 
 		// Load Layer
 		if (state.nextLStatus == MixState.NOT_STARTED && !frozen) {
+			Log.d(MixView.TAG, "Debug: DataView - draw - NOT_STARTED");
 
 			DownloadRequest request = new DownloadRequest();
 
@@ -260,6 +271,7 @@ public class DataView {
 			state.nextLStatus = MixState.PROCESSING;
 
 		} else if (state.nextLStatus == MixState.PROCESSING) {
+			Log.d(MixView.TAG, "Debug: DataView - draw - PROCESSING");
 			if (mixContext.getDownloader().isReqComplete(state.downloadId)) {
 				dRes = mixContext.getDownloader().getReqResult(state.downloadId);
 
@@ -275,6 +287,8 @@ public class DataView {
 					Collections.sort(dataHandler.getMarkerList(), MarkersOrder.getInstance());
 				}	
 			}
+		}
+		
 		}
 
 		// Update markers
