@@ -220,7 +220,7 @@ public class Marker {
 		}
 	}
 
-	public void draw(PaintScreen dw) {
+	public void draw(PaintScreen dw, float radius, float dist) {
 
 		//TODO: grandezza cerchi e trasparenza
 		float maxHeight = Math.round(dw.getHeight() / 10f) + 1;
@@ -254,11 +254,19 @@ public class Marker {
 			dw.setStrokeWidth(maxHeight / 10f);
 			dw.setFill(false);
 			
-			if (("Twitter".equals(dataSource))&&(bitmap!=null)){
-	            dw.paintBitmap(cMarker.x-40, cMarker.y-40, bitmap);
+			//luo resize the bitmap according to the distance
+			Bitmap resizedBitmap = null;
+			int scaledRate = 1;
+			if(bitmap!=null){
+				//int scaledRate = (int) (24*(1+dist/10));
+				scaledRate = (int) (24*(10f/dist+radius/10f));
+				resizedBitmap = Bitmap.createScaledBitmap(bitmap, scaledRate, scaledRate, true);
 			}
-			else if(("Streaming".equals(dataSource))&&(bitmap!=null)){
-		        dw.paintBitmap(cMarker.x-40, cMarker.y-50, bitmap);
+			if (("Twitter".equals(dataSource))&&(resizedBitmap!=null)){
+	            dw.paintBitmap(cMarker.x-40, cMarker.y-40, resizedBitmap);
+			}
+			else if(("Streaming".equals(dataSource))&&(resizedBitmap!=null)){
+		        dw.paintBitmap(cMarker.x-40, cMarker.y-50, resizedBitmap);
 
 				}
 				else{
@@ -275,10 +283,11 @@ public class Marker {
 			dw.setStrokeWidth(1f);
 			dw.setFill(true);
 			dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
-					/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
+					/ 2, signMarker.y + maxHeight*(float)(0.4+radius/80), currentAngle + 90, (float)0.4+radius/80);
+			//luo		/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
 			
 			
-		}
+			}
 	}
 
 	public boolean fClick(float x, float y, MixContext ctx, MixState state) {
