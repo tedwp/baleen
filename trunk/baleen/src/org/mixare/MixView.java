@@ -696,6 +696,11 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 
 			t.setText("Radius: " + String.valueOf(myout));
 			t.show();
+			
+			//luo	
+			setZoomLevel();
+			MixView.dataView.draw(MixView.dWindow);
+			//
 		}
 
 		public void onStartTrackingTouch(SeekBar seekBar) {
