@@ -28,6 +28,7 @@ import org.mixare.gui.PaintScreen;
 import org.mixare.gui.ScreenObj;
 import org.mixare.gui.ScreenLine;
 import org.mixare.gui.TextObj;
+import org.mixare.image.ImageUtilities;
 import org.mixare.reality.PhysicalPlace;
 import org.mixare.render.Camera;
 import org.mixare.render.MixVector;
@@ -108,9 +109,19 @@ public class Marker {
 		this.mGeoLoc.setAltitude(altitude);
 		this.URL = URL;
 	}
+	
+
 
 	public String getTitle(){
 		return title;
+	}
+	
+	public Bitmap getBitMap(){
+		return bitmap;
+	}
+	
+	public String getUserName(){
+		return userName;
 	}
 
 	public String getURL(){
@@ -247,7 +258,7 @@ public class Marker {
 	            dw.paintBitmap(cMarker.x-40, cMarker.y-40, bitmap);
 			}
 			else if(("Streaming".equals(dataSource))&&(bitmap!=null)){
-		            dw.paintBitmap(cMarker.x-40, cMarker.y-50, bitmap);
+		        dw.paintBitmap(cMarker.x-40, cMarker.y-50, bitmap);
 
 				}
 				else{
