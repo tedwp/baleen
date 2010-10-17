@@ -194,6 +194,8 @@ public class Marker {
 				dw.setColor(Color.rgb(50, 204, 255));
 			else if ("OpenStreetMap".equals(dataSource))
 				dw.setColor(Color.rgb(255, 168, 0));
+			else if ("Streaming".equals(dataSource))
+				dw.setColor(Color.rgb(255, 215, 0));
 			dw.setStrokeWidth(maxHeight / 10f);
 			dw.setFill(false);
 			dw.paintCircle(cMarker.x, cMarker.y, maxHeight / 1.5f);

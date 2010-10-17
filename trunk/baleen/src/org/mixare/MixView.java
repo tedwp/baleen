@@ -81,6 +81,7 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 	static PaintScreen dWindow;
 	static DataView dataView;
 	private Thread downloadThread;
+	private Thread streamingThread;
 
 	private float RTmp[] = new float[9];
 	private float R[] = new float[9];
@@ -271,6 +272,7 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 				Log.d(MixView.TAG, "Debug: MixView - mixContext entered");
 
 				mixContext.downloadManager = new DownloadManager(mixContext);
+				mixContext.streamingManager = new PrintFilterStream(mixContext);
 
 
 				dWindow = new PaintScreen();
@@ -485,6 +487,8 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 			}
 			downloadThread = new Thread(mixContext.downloadManager);
 			downloadThread.start();
+			streamingThread = new Thread(mixContext.streamingManager);
+			streamingThread.start();
 		} catch (Exception ex) {
 			doError(ex);
 			try {
@@ -674,6 +678,8 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 		dataView.clearEvents();
 		downloadThread = new Thread(mixContext.downloadManager);
 		downloadThread.start();
+		streamingThread = new Thread(mixContext.streamingManager);
+		streamingThread.start();
 
 	};
 
