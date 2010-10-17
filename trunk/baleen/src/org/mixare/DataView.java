@@ -297,11 +297,14 @@ public class DataView {
 			float[] dist = new float[1];
 			dist[0] = 0;
 			Location.distanceBetween(ma.getLatitude(), ma.getLongitude(), mixContext.getCurrentLocation().getLatitude(), mixContext.getCurrentLocation().getLongitude(), dist);
-			if (dist[0] / 1000f < radius) {
+			//luo if (dist[0] / 1000f < radius) {
+			if ( (dist[0] / 1000f >= radius) && (dist[0] / 1000f < 80)) {
 				if (!frozen) 
 					ma.update(curFix, System.currentTimeMillis());
 				ma.calcPaint(cam, addX, addY);
-				ma.draw(dw);
+				//luo ma.draw(dw);
+				 ma.draw(dw, radius, dist[0] / 1000f);
+				//ma.draw(dw,dist[0]/1000f);
 			}
 		}
 
