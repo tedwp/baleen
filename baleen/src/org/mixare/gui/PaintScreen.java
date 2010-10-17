@@ -74,6 +74,7 @@ public class PaintScreen {
 
 	public void setColor(int c) {
 		paint.setColor(c);
+		
 	}
 
 	public void setStrokeWidth(float w) {

@@ -29,15 +29,25 @@ public class TextObj implements ScreenObj {
 	float width, height;
 	float areaWidth, areaHeight;
 	String lines[];
+	String lines4UserName[];
 	float lineWidths[];
 	float lineHeight;
 	float maxLineWidth;
 	float pad;
 	int borderColor, bgColor, textColor;
+	
+	String userName = null;
 
 	public TextObj(String txtInit, float fontSizeInit, float maxWidth,
 			PaintScreen dw) {
 		this(txtInit, fontSizeInit, maxWidth, Color.rgb(255, 255, 255), Color
+				.rgb(0, 0, 0), Color.rgb(255, 255, 255),
+				dw.getTextAsc() / 2, dw);
+	}
+	
+	public TextObj(String userName, String txtInit, float fontSizeInit, float maxWidth,
+			PaintScreen dw) {
+		this(userName, txtInit, fontSizeInit, maxWidth, Color.rgb(255, 255, 255), Color
 				.rgb(0, 0, 0), Color.rgb(255, 255, 255),
 				dw.getTextAsc() / 2, dw);
 	}
@@ -49,6 +59,30 @@ public class TextObj implements ScreenObj {
 		this.bgColor = bgColor;
 		this.borderColor = borderColor;
 		this.textColor = textColor;
+
+		try {
+			prepTxt(txtInit, fontSizeInit, maxWidth, dw);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			prepTxt("TEXT PARSE ERROR", 12, 200, dw);
+		}
+	}
+	
+	public TextObj(String userName, String txtInit, float fontSizeInit, float maxWidth,
+			int borderColor, int bgColor, int textColor, float pad,
+			PaintScreen dw) {
+		this.pad = pad;
+		this.bgColor = bgColor;
+		this.borderColor = borderColor;
+		this.textColor = textColor;
+		
+		this.userName = userName + ":";
+		prepTxt(this.userName, fontSizeInit, maxWidth, dw);
+		this.lines4UserName = new  String [this.lines.length];
+		//this.lines4UserName = this.lines;
+		for(int i = 0; i < this.lines.length; i++){
+			System.arraycopy(this.lines, 0, this.lines4UserName, 0, this.lines.length);
+		}
 
 		try {
 			prepTxt(txtInit, fontSizeInit, maxWidth, dw);
@@ -106,18 +140,36 @@ public class TextObj implements ScreenObj {
 			if (maxLineWidth < lineWidths[i])
 				maxLineWidth = lineWidths[i];
 		}
-		areaWidth = maxLineWidth;
-		areaHeight = lineHeight * lines.length;
-
-		width = areaWidth + pad * 2;
-		height = areaHeight + pad * 2;
+//		areaWidth = maxLineWidth;
+//		areaHeight = lineHeight * lines.length;
+//
+//
+//		width = areaWidth + pad * 2;
+//		height = areaHeight + pad * 2;
 	}
 
 	public void paint(PaintScreen dw) {
+		areaWidth = maxLineWidth;
+		
+		if(this.userName != null){
+			int nameLine = this.lines4UserName.length;
+			areaHeight = lineHeight * lines.length + lineHeight * nameLine;
+		}
+		else{
+			areaHeight = lineHeight * lines.length;
+		}
+
+
+		width = areaWidth + pad * 2;
+		height = areaHeight + pad * 2;
+		
 		dw.setFontSize(fontSize);
 
 		dw.setFill(true);
-		dw.setColor(bgColor);
+		dw.setColor(Color.argb(160, 75, 75, 75));
+		//dw.setColor(bgColor);
+		//dw.canvas.drawColor(Color.TRANSPARENT);
+		
 		dw.paintRect(0, 0, width, height);
 
 		dw.setFill(false);
@@ -125,11 +177,33 @@ public class TextObj implements ScreenObj {
 		dw.paintRect(0, 0, width, height);
 
 		dw.setFill(true);
-		dw.setColor(textColor);
+
+		
+		
+		
+		if(this.userName != null){
+			dw.setColor(Color.RED);
+			for (int i = 0; i < this.lines4UserName.length; i++) {
+				String line = lines4UserName[i];
+
+				dw.paintText(pad, pad + lineHeight * i + dw.getTextAsc(), line);
+			}
+
+		}
+
+		
+		
+	dw.setColor(textColor);
+		
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
-
-			dw.paintText(pad, pad + lineHeight * i + dw.getTextAsc(), line);
+			if(this.userName != null){
+				int nameLine = this.lines4UserName.length;
+				dw.paintText(pad, pad + lineHeight * nameLine + lineHeight * i + dw.getTextAsc(), line);
+			}
+			else{
+				dw.paintText(pad, pad + lineHeight * i + dw.getTextAsc(), line);
+			}
 		}
 	}
 

@@ -25,6 +25,6 @@ public class JsonT4j extends DataHandler {
 		Log.d(MixView.TAG, "load Twitter4j JSON data - lon: "+lon);
 		Log.d(MixView.TAG, "load Twitter4j JSON data - lon: "+imageURL);
 
-		createMarker( text, lat, lon, 0, null, imageURL);
+		createMarker( text, lat, lon, 0, null, imageURL, user);
 	}
 }

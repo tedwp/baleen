@@ -215,8 +215,14 @@ public class Marker {
 		float maxHeight = Math.round(dw.getHeight() / 10f) + 1;
 
 		if (textBlock == null) {
-			textBlock = new TextObj(userName +": " + title, Math.round(maxHeight / 2f) + 1,
+			if(userName != null){
+				textBlock = new TextObj(userName, title, Math.round(maxHeight / 2f) + 1,
+						160, dw);			
+			}
+			else{
+			textBlock = new TextObj(title, Math.round(maxHeight / 2f) + 1,
 					160, dw);
+			}
 			
 		}
 
