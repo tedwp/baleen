@@ -63,6 +63,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     GeoLocation geolocation;
     Double lat;
     Double lon;
+    String imageURL;
 
     public PrintFilterStream(MixContext ctx) {
     	Log.d(MixView.TAG, "Debug: PrintFilterStream entered");
@@ -143,6 +144,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     	user = status.getUser().getName();
     	text = status.getText();
     	geolocation = status.getGeoLocation();
+    	imageURL = status.getUser().getProfileImageURL().toString();
     	if(geolocation == null){
     		Log.d(MixView.TAG, "Debug: PrintFilterStream - onStatus geolocation: Null!");
     		lat = null;
@@ -153,7 +155,8 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     		lon = status.getGeoLocation().getLongitude();
     		Log.d(MixView.TAG, "Debug: PrintFilterStream - onStatus lon: " + lon);
     		try {
-    			layer.load(user, text, lat, lon);
+//    			layer.load(user, text, lat, lon);
+    			layer.load(user, text, lat, lon, imageURL);
     		} catch (NumberFormatException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();

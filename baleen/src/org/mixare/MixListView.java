@@ -29,6 +29,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -53,7 +54,8 @@ import android.widget.Toast;
 public class MixListView extends ListActivity {
 
 	private static int list;
-
+	
+	private Vector<Bitmap> listviewImage;
 	private Vector<String> listViewMenu;
 	private Vector<String> selectedItemURL;
 	private Vector<String> dataSourceMenu;

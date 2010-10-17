@@ -224,7 +224,9 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 
 		try {
 			handleIntent(getIntent());
+			
 
+			
 			final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 			this.mWakeLock = pm.newWakeLock(
 					PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");

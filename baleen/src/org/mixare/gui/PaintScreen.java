@@ -20,6 +20,7 @@ package org.mixare.gui;
 
 import org.mixare.MixView;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -37,6 +38,7 @@ public class PaintScreen {
 		paint.setAntiAlias(true);
 		paint.setColor(Color.BLUE);
 		paint.setStyle(Paint.Style.STROKE);
+		
 	}
 
 	public Canvas getCanvas() {
@@ -85,8 +87,13 @@ public class PaintScreen {
 	public void paintRect(float x, float y, float width, float height) {
 		canvas.drawRect(x, y, x + width, y + height, paint);
 	}
+	
+	public void paintBitmap(float x, float y, Bitmap bitmap) {
+		canvas.drawBitmap(bitmap, x, y, paint);
+	}
 
 	public void paintCircle(float x, float y, float radius) {
+		
 		canvas.drawCircle(x, y, radius, paint);
 	}
 
