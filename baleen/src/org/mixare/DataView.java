@@ -224,10 +224,9 @@ public class DataView {
 	public void draw(PaintScreen dw) {
 		Log.d(MixView.TAG, "Debug: DataView - draw entered");
 		mixContext.getRM(cam.transform);
-//		curFix = mixContext.getCurrentLocation();
 		// set location to San Francisco for testing
-		mixContext.getCurrentLocation().setLatitude(37.3);
-		mixContext.getCurrentLocation().setLongitude(-122.25);
+//		mixContext.getCurrentLocation().setLatitude(37.3);
+//		mixContext.getCurrentLocation().setLongitude(-122.25);
 		curFix = mixContext.getCurrentLocation();
 		
 		state.calcPitchBearing(cam.transform);
@@ -297,14 +296,15 @@ public class DataView {
 			float[] dist = new float[1];
 			dist[0] = 0;
 			Location.distanceBetween(ma.getLatitude(), ma.getLongitude(), mixContext.getCurrentLocation().getLatitude(), mixContext.getCurrentLocation().getLongitude(), dist);
-			//luo if (dist[0] / 1000f < radius) {
+
+			 //luo if (dist[0] / 1000f < radius) {
 			if ( (dist[0] / 1000f >= radius) && (dist[0] / 1000f < 80)) {
 				if (!frozen) 
 					ma.update(curFix, System.currentTimeMillis());
 				ma.calcPaint(cam, addX, addY);
-				//luo ma.draw(dw);
+
 				 ma.draw(dw, radius, dist[0] / 1000f);
-				//ma.draw(dw,dist[0]/1000f);
+					//ma.draw(dw,dist[0]/1000f);
 			}
 		}
 

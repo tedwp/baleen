@@ -58,6 +58,10 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     
     JsonT4j layer = new JsonT4j();
     
+    Double initLat;
+    Double initLon;
+    Double range = 1.0;
+    
     String user;
     String text;
     GeoLocation geolocation;
@@ -70,7 +74,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     	this.ctx = ctx;
         String filter;
         String track;
-        twitterStream = new TwitterStreamFactory(this).getInstance("testlocation", "GAOjianhui");
+        twitterStream = new TwitterStreamFactory(this).getInstance("luohehe", "mantou1225");
 /*        String[] filterSplit = filter.split(",");
         filterArray = new int[filterSplit.length];
         for(int i=0; i< filterSplit.length; i++){
@@ -79,6 +83,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
         }*/
         query = new FilterQuery();
         layer.createMarker("layer default marker 1", 36.8, -122.75, 0, null);
+//        layer.createMarker("Marker 1 at Melbourne", -38.2, 144.5, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
         
     }
@@ -94,23 +99,46 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
 	public void run() {
     	Log.d(MixView.TAG, "Debug: PrintFilterStream - run entered");
     	layer.createMarker("layer default marker 2", 37.8, -121.75, 0, null);
+//    	layer.createMarker("Marker 2 at Melbourne", -38.2, 145.2, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
+        
+        while (ctx.curLoc == null) {
+        	Log.d(MixView.TAG, "Debug: PrintFilterStream - sleep entered");
+        	try {
+        		Thread.sleep(100);
+        	} catch (InterruptedException e) {
+        		// TODO Auto-generated catch block
+        		e.printStackTrace();
+        	}
+        }
+
+        initLat = ctx.curLoc.getLatitude();
+        Log.d(MixView.TAG, "Debug: PrintFilterStream - run - initLat: "+initLat);
+        initLon = ctx.curLoc.getLongitude();
+        Log.d(MixView.TAG, "Debug: PrintFilterStream - run -  initLon: "+initLon);
+        
         try {
-			startConsuming();
+			startConsuming(initLat, initLon);
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
 
-    private void startConsuming() throws TwitterException {
+    private void startConsuming(double initLat, double initLon) throws TwitterException {
         // filter() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
     	Log.d(MixView.TAG, "Debug: PrintFilterStream - startConsuming entered");
     	layer.createMarker("layer default marker 3", 37.7, -121.95, 0, null);
+//    	layer.createMarker("Marker 3 at Melbourne", -37.4, 145.2, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
     	twitterStream.setStatusListener(this);
+    	double latRangePosi = initLat + 1;
+    	double latRangeNega = initLat - 1;
+    	double lonRangePosi = initLon + 1;
+    	double longRangeNega = initLon - 1;
 //        double[][] loc={{140,-40},{148,-33}};
-    	double[][] loc={{-122.75,36.8},{-121.75,37.8}};
+//    	double[][] loc={{-122.75,36.8},{-121.75,37.8}};
+    	double[][] loc={{longRangeNega,latRangeNega},{lonRangePosi,latRangePosi}};
         twitterStream.filter(query.locations(loc));
     }
 
@@ -157,6 +185,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     		try {
 //    			layer.load(user, text, lat, lon);
     			layer.load(user, text, lat, lon, imageURL);
+    			System.out.println("layer non-default markerList size: "+layer.getMarkerCount());
     		} catch (NumberFormatException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
