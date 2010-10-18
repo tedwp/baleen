@@ -296,25 +296,12 @@ public class DataView {
 			float[] dist = new float[1];
 			dist[0] = 0;
 			Location.distanceBetween(ma.getLatitude(), ma.getLongitude(), mixContext.getCurrentLocation().getLatitude(), mixContext.getCurrentLocation().getLongitude(), dist);
-
-			 //luo if (dist[0] / 1000f < radius) {
-			String dataSource = MixListView.getDataSource();
-			if("Streaming".equals(dataSource)){//if dataSource is Streaming,use changed mode
-			 if ( (dist[0] / 1000f >= radius) && (dist[0] / 1000f < 80)) {
+			if (dist[0] / 1000f < radius) {
 				if (!frozen) 
 					ma.update(curFix, System.currentTimeMillis());
 				ma.calcPaint(cam, addX, addY);
-				 ma.draw(dw, radius, dist[0] / 1000f, dataSource);
-			 }
-			}else {//if dataSource is Wiki, Buzz or Twitter, use original mode
-				if (dist[0] / 1000f < radius) {
-					if (!frozen) 
-						ma.update(curFix, System.currentTimeMillis());
-					ma.calcPaint(cam, addX, addY);
-					ma.draw(dw, radius, dist[0] / 1000f, dataSource);
-				}
+				ma.draw(dw);
 			}
-				
 		}
 
 		// Draw Radar

@@ -26,7 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.mixare;
 
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.mixare.data.JsonT4j;
@@ -68,13 +70,26 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     Double lat;
     Double lon;
     String imageURL;
+    
+//    String[][] account;
+    Map<String, String> acc;
+    Iterator<String> iter;
 
     public PrintFilterStream(MixContext ctx) {
     	Log.d(MixView.TAG, "Debug: PrintFilterStream entered");
     	this.ctx = ctx;
         String filter;
         String track;
-    //    twitterStream = new TwitterStreamFactory(this).getInstance("luohehe", "mantou1225");
+        acc = new HashMap<String, String>();
+        // Backup Account
+        acc.put("tristiaapp", "mjkluio789");
+        acc.put("baleenapp", "mjkluio789");
+        iter = acc.keySet().iterator();
+/*        account[0][0]="baleenapp";
+        account[0][1]="mjkluio789";
+        account[1][0]="tristiaapp";
+        account[1][1]="mjkluio789";*/
+//        twitterStream = new TwitterStreamFactory(this).getInstance("tristiaapp", "mjkluio789");
         twitterStream = new TwitterStreamFactory(this).getInstance("baleenapp", "mjkluio789");
 /*        String[] filterSplit = filter.split(",");
         filterArray = new int[filterSplit.length];
@@ -109,7 +124,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
         		Thread.sleep(100);
         	} catch (InterruptedException e) {
         		// TODO Auto-generated catch block
-        		e.printStackTrace();
+        		e.printStackTrace();		
         	}
         }
 
@@ -123,6 +138,14 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Log.d(MixView.TAG, "Debug: PrintFilterStream - run -  TwitterException entered");
+			if(iter.hasNext()){
+				String accName = iter.next();
+				String accPsw = acc.get(accName);
+				twitterStream = new TwitterStreamFactory(this).getInstance(accName, accPsw);
+				this.run();
+			}
+			Log.d(MixView.TAG, "Debug: PrintFilterStream - run -  TwitterException left");
 		}
     }
 

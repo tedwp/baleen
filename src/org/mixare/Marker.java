@@ -220,7 +220,7 @@ public class Marker {
 		}
 	}
 
-	public void draw(PaintScreen dw, float radius, float dist, String dataSource) {
+	public void draw(PaintScreen dw) {
 
 		//TODO: grandezza cerchi e trasparenza
 		float maxHeight = Math.round(dw.getHeight() / 10f) + 1;
@@ -240,7 +240,7 @@ public class Marker {
 		if (isVisible) {
 			//default color
 			dw.setColor(COLOR_DEFAULT);
-			//String dataSource = MixListView.getDataSource();
+			String dataSource = MixListView.getDataSource();
 			if ("Wikipedia".equals(dataSource))
 				dw.setColor(Color.rgb(255, 0, 0));
 			else if ("Buzz".equals(dataSource))
@@ -254,47 +254,29 @@ public class Marker {
 			dw.setStrokeWidth(maxHeight / 10f);
 			dw.setFill(false);
 			
-			//luo resize the bitmap according to the distance
-			Bitmap resizedBitmap = null;
-			int scaledRate = 1;
-			if(bitmap!=null){
-				//int scaledRate = (int) (24*(1+dist/10));
-				scaledRate = (int) (24*(10f/dist+radius/10f));
-				resizedBitmap = Bitmap.createScaledBitmap(bitmap, scaledRate, scaledRate, true);
-			}
-			
-			float currentAngle = MixUtils.getAngle(cMarker.x, cMarker.y, signMarker.x, signMarker.y);
-			txtLab.prepare(textBlock);
-			
-			/*if (("Twitter".equals(dataSource))&&(resizedBitmap!=null)){
-	            dw.paintBitmap(cMarker.x-40, cMarker.y+35*(float)(0.4+radius/80), resizedBitmap);
-	            dw.setStrokeWidth(1f);
-	    		dw.setFill(true);
-	            dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
-						/ 2, signMarker.y + maxHeight, currentAngle + 90, (float)0.4+radius/80);
-			}*/
 			if (("Twitter".equals(dataSource))&&(bitmap!=null)){
 	            dw.paintBitmap(cMarker.x-40, cMarker.y-40, bitmap);
-	            dw.setStrokeWidth(1f);
-	    		dw.setFill(true);
-	            dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
-						/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
 			}
-			else if(("Streaming".equals(dataSource))&&(resizedBitmap!=null)){
-		        dw.paintBitmap(cMarker.x-40, cMarker.y+35*(float)(0.4+radius/80), resizedBitmap);
-		        dw.setStrokeWidth(1f);
-				dw.setFill(true);
-		        dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
-						/ 2, signMarker.y + maxHeight, currentAngle + 90, (float)0.4+radius/80);
+			else if(("Streaming".equals(dataSource))&&(bitmap!=null)){
+		        dw.paintBitmap(cMarker.x-40, cMarker.y-50, bitmap);
 
 				}
 				else{
 					dw.paintCircle(cMarker.x, cMarker.y, maxHeight / 1.5f);
-					dw.setStrokeWidth(1f);
-					dw.setFill(true);
-					dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
-							/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
 				}
+			
+			
+            
+
+			float currentAngle = MixUtils.getAngle(cMarker.x, cMarker.y, signMarker.x, signMarker.y);
+
+			txtLab.prepare(textBlock);
+
+			dw.setStrokeWidth(1f);
+			dw.setFill(true);
+			dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
+					/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
+			
 			
 		}
 	}
