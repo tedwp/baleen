@@ -262,32 +262,34 @@ public class Marker {
 				scaledRate = (int) (24*(10f/dist+radius/10f));
 				resizedBitmap = Bitmap.createScaledBitmap(bitmap, scaledRate, scaledRate, true);
 			}
+			
+			float currentAngle = MixUtils.getAngle(cMarker.x, cMarker.y, signMarker.x, signMarker.y);
+			txtLab.prepare(textBlock);
+			
 			if (("Twitter".equals(dataSource))&&(resizedBitmap!=null)){
-	            dw.paintBitmap(cMarker.x-40, cMarker.y-40, resizedBitmap);
+	            dw.paintBitmap(cMarker.x-40, cMarker.y+35*(float)(0.4+radius/80), resizedBitmap);
+	            dw.setStrokeWidth(1f);
+	    		dw.setFill(true);
+	            dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
+						/ 2, signMarker.y + maxHeight, currentAngle + 90, (float)0.4+radius/80);
 			}
 			else if(("Streaming".equals(dataSource))&&(resizedBitmap!=null)){
-		        dw.paintBitmap(cMarker.x-40, cMarker.y-50, resizedBitmap);
+		        dw.paintBitmap(cMarker.x-40, cMarker.y+35*(float)(0.4+radius/80), resizedBitmap);
+		        dw.setStrokeWidth(1f);
+				dw.setFill(true);
+		        dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
+						/ 2, signMarker.y + maxHeight, currentAngle + 90, (float)0.4+radius/80);
 
 				}
 				else{
-					dw.paintCircle(cMarker.x, cMarker.y, maxHeight / 1.5f);
+					dw.paintCircle(cMarker.x, cMarker.y+(float)0.6+radius/8, maxHeight / 1.5f);
+					dw.setStrokeWidth(1f);
+					dw.setFill(true);
+					dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
+							/ 2, signMarker.y + maxHeight, currentAngle + 90, (float)0.6+radius/8);
 				}
 			
-			
-            
-
-			float currentAngle = MixUtils.getAngle(cMarker.x, cMarker.y, signMarker.x, signMarker.y);
-
-			txtLab.prepare(textBlock);
-
-			dw.setStrokeWidth(1f);
-			dw.setFill(true);
-			dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
-					/ 2, signMarker.y + maxHeight*(float)(0.4+radius/80), currentAngle + 90, (float)0.4+radius/80);
-			//luo		/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
-			
-			
-			}
+		}
 	}
 
 	public boolean fClick(float x, float y, MixContext ctx, MixState state) {

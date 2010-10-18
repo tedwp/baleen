@@ -673,7 +673,7 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 
 		dataView.setRadius(myout);
 
-		myZoomBar.setVisibility(View.INVISIBLE);
+		//luo myZoomBar.setVisibility(View.INVISIBLE);
 		zoomLevel = String.valueOf(myout);
 
 		dataView.doStart();
@@ -696,11 +696,11 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 
 			t.setText("Radius: " + String.valueOf(myout));
 			t.show();
-			
-			//luo	
-			setZoomLevel();
+
+			//luo
+			dataView.setRadius(myout);
 			MixView.dataView.draw(MixView.dWindow);
-			//
+	
 		}
 
 		public void onStartTrackingTouch(SeekBar seekBar) {
