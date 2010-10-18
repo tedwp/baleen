@@ -74,7 +74,8 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     	this.ctx = ctx;
         String filter;
         String track;
-        twitterStream = new TwitterStreamFactory(this).getInstance("luohehe", "mantou1225");
+    //    twitterStream = new TwitterStreamFactory(this).getInstance("luohehe", "mantou1225");
+        twitterStream = new TwitterStreamFactory(this).getInstance("baleenapp", "mjkluio789");
 /*        String[] filterSplit = filter.split(",");
         filterArray = new int[filterSplit.length];
         for(int i=0; i< filterSplit.length; i++){
