@@ -220,7 +220,7 @@ public class Marker {
 		}
 	}
 
-	public void draw(PaintScreen dw, float radius, float dist) {
+	public void draw(PaintScreen dw, float radius, float dist, String dataSource) {
 
 		//TODO: grandezza cerchi e trasparenza
 		float maxHeight = Math.round(dw.getHeight() / 10f) + 1;
@@ -240,7 +240,7 @@ public class Marker {
 		if (isVisible) {
 			//default color
 			dw.setColor(COLOR_DEFAULT);
-			String dataSource = MixListView.getDataSource();
+			//String dataSource = MixListView.getDataSource();
 			if ("Wikipedia".equals(dataSource))
 				dw.setColor(Color.rgb(255, 0, 0));
 			else if ("Buzz".equals(dataSource))
@@ -266,12 +266,19 @@ public class Marker {
 			float currentAngle = MixUtils.getAngle(cMarker.x, cMarker.y, signMarker.x, signMarker.y);
 			txtLab.prepare(textBlock);
 			
-			if (("Twitter".equals(dataSource))&&(resizedBitmap!=null)){
+			/*if (("Twitter".equals(dataSource))&&(resizedBitmap!=null)){
 	            dw.paintBitmap(cMarker.x-40, cMarker.y+35*(float)(0.4+radius/80), resizedBitmap);
 	            dw.setStrokeWidth(1f);
 	    		dw.setFill(true);
 	            dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
 						/ 2, signMarker.y + maxHeight, currentAngle + 90, (float)0.4+radius/80);
+			}*/
+			if (("Twitter".equals(dataSource))&&(bitmap!=null)){
+	            dw.paintBitmap(cMarker.x-40, cMarker.y-40, bitmap);
+	            dw.setStrokeWidth(1f);
+	    		dw.setFill(true);
+	            dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
+						/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
 			}
 			else if(("Streaming".equals(dataSource))&&(resizedBitmap!=null)){
 		        dw.paintBitmap(cMarker.x-40, cMarker.y+35*(float)(0.4+radius/80), resizedBitmap);
@@ -282,11 +289,11 @@ public class Marker {
 
 				}
 				else{
-					dw.paintCircle(cMarker.x, cMarker.y+(float)0.6+radius/8, maxHeight / 1.5f);
+					dw.paintCircle(cMarker.x, cMarker.y, maxHeight / 1.5f);
 					dw.setStrokeWidth(1f);
 					dw.setFill(true);
 					dw.paintObj(txtLab, signMarker.x - txtLab.getWidth()
-							/ 2, signMarker.y + maxHeight, currentAngle + 90, (float)0.6+radius/8);
+							/ 2, signMarker.y + maxHeight, currentAngle + 90, 1);
 				}
 			
 		}
