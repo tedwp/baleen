@@ -30,7 +30,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 public class Json extends DataHandler {
-//	double acc = 0.1;
+
 	String imageURL = null;
 
 	public void processBuzzJSONObject(JSONObject jo) throws NumberFormatException, JSONException {
@@ -48,17 +48,28 @@ public class Json extends DataHandler {
 		Log.d(MixView.TAG, "processing Twitter JSON data - text: "+jo.getString("text"));
 		Random randlat = new Random(System.currentTimeMillis());
 		Random randlon = new Random(System.currentTimeMillis());
+		Random randop = new Random(System.currentTimeMillis());
 		Double rlat = (double) randlat.nextInt(100);
 		Double rlon = (double) randlon.nextInt(100);
-//		acc = acc + 0.05;
-		Double lat = 37.3 + (rlat/1000);
-//		Double lat = -37.7592 + acc;
-//		Double lat = -37.7518194444444;
+		int op = randop.nextInt(100);
+		Double lat;
+		Double lon;
+
+		if (op < 50) {
+			lat = -37.7 + (rlat/1000);
+		} else {
+			lat = -37.7 - (rlat/1000);
+		}
+		
+		if (op < 50) {
+			lon = 144.9 + (rlon/1000);
+		} else {
+			lon = 144.9 + (rlon/1000);
+		}
+
 		Log.d(MixView.TAG, "processing Twitter JSON data - text: "+lat);
-		Double lon = -121.75 + (rlon/1000);
-//		Double lon = 144.9486 + acc;
-//		Double lon = 144.919516666667;
 		Log.d(MixView.TAG, "processing Twitter JSON data - text: "+lon);
+		
 		if(jo.has("profile_image_url")){
 			 imageURL= jo.getString("profile_image_url");
 			createMarker( jo.getString("text"),
@@ -120,8 +131,6 @@ public class Json extends DataHandler {
 
 			Log.d(MixView.TAG, "processing Wikipedia JSON data");
 			createMarker( jo.getString("title"),
-//					-37.7518194444444,
-//					144.919516666667,
 					jo.getDouble("lat"),
 					jo.getDouble("lng"),
 					jo.getDouble("elevation"),
