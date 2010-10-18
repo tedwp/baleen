@@ -85,10 +85,6 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
         acc.put("tristiaapp", "mjkluio789");
         acc.put("baleenapp", "mjkluio789");
         iter = acc.keySet().iterator();
-/*        account[0][0]="baleenapp";
-        account[0][1]="mjkluio789";
-        account[1][0]="tristiaapp";
-        account[1][1]="mjkluio789";*/
 //        twitterStream = new TwitterStreamFactory(this).getInstance("tristiaapp", "mjkluio789");
         twitterStream = new TwitterStreamFactory(this).getInstance("baleenapp", "mjkluio789");
 /*        String[] filterSplit = filter.split(",");
@@ -98,7 +94,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
 
         }*/
         query = new FilterQuery();
-        layer.createMarker("layer default marker 1", 36.8, -122.75, 0, null);
+//        layer.createMarker("layer default marker 1", 36.8, -122.75, 0, null);
 //        layer.createMarker("Marker 1 at Melbourne", -38.2, 144.5, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
         
@@ -114,7 +110,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
 
 	public void run() {
     	Log.d(MixView.TAG, "Debug: PrintFilterStream - run entered");
-    	layer.createMarker("layer default marker 2", 37.8, -121.75, 0, null);
+//    	layer.createMarker("layer default marker 2", 37.8, -121.75, 0, null);
 //    	layer.createMarker("Marker 2 at Melbourne", -38.2, 145.2, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
         
@@ -124,7 +120,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
         		Thread.sleep(100);
         	} catch (InterruptedException e) {
         		// TODO Auto-generated catch block
-        		e.printStackTrace();		
+        		e.printStackTrace();
         	}
         }
 
@@ -152,7 +148,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     private void startConsuming(double initLat, double initLon) throws TwitterException {
         // filter() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
     	Log.d(MixView.TAG, "Debug: PrintFilterStream - startConsuming entered");
-    	layer.createMarker("layer default marker 3", 37.7, -121.95, 0, null);
+//    	layer.createMarker("layer default marker 3", 37.7, -121.95, 0, null);
 //    	layer.createMarker("Marker 3 at Melbourne", -37.4, 145.2, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
     	twitterStream.setStatusListener(this);

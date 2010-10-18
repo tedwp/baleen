@@ -72,10 +72,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MixView extends Activity implements SensorEventListener,LocationListener, OnTouchListener{
-
-	
-	int testCounter1 = 1;
-	int testCounter2;
 	
 	private CameraSurface camScreen;
 	private AugmentedView augScreen;
@@ -224,10 +220,6 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(MixView.TAG, "Debug: MixView - onCreate entered");
-		testCounter1++;
-		testCounter2++;
-		Log.d(MixView.TAG, "Debug: MixView - testCounter1: "+testCounter1);
-		Log.d(MixView.TAG, "Debug: MixView - testCounter2: "+testCounter2);
 		super.onCreate(savedInstanceState);
 
 		try {
@@ -279,20 +271,6 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 
 			if (!isInited) {
 				Log.d(MixView.TAG, "Debug: MixView - isInited entered");
-				testCounter1++;
-				testCounter2++;
-				Log.d(MixView.TAG, "Debug: MixView - testCounter1: "+testCounter1);
-				Log.d(MixView.TAG, "Debug: MixView - testCounter2: "+testCounter2);
-				if (mixContext == null) {
-					Log.d(MixView.TAG, "Debug: MixView - mixContext: null");
-				} else {
-					Log.d(MixView.TAG, "Debug: MixView - mixContext: not null");
-					if (mixContext.streamingManager == null) {
-						Log.d(MixView.TAG, "Debug: MixView - mixContext.streamingManager: null");
-					} else {
-						Log.d(MixView.TAG, "Debug: MixView - mixContext.streamingManager: not null");
-					}
-				}
 				mixContext = new MixContext(this);
 
 				mixContext.downloadManager = new DownloadManager(mixContext);
@@ -417,10 +395,6 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 	@Override
 	protected void onResume() {
 		Log.d(MixView.TAG, "Debug: MixView - onResume entered");
-		testCounter1++;
-		testCounter2++;
-		Log.d(MixView.TAG, "Debug: MixView - testCounter1: "+testCounter1);
-		Log.d(MixView.TAG, "Debug: MixView - testCounter2: "+testCounter2);
 		super.onResume();
 
 		try {
@@ -515,16 +489,6 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 			}
 			downloadThread = new Thread(mixContext.downloadManager);
 			downloadThread.start();
-			if (mixContext == null) {
-				Log.d(MixView.TAG, "Debug: MixView - mixContext: null");
-			} else {
-				Log.d(MixView.TAG, "Debug: MixView - mixContext: not null");
-				if (mixContext.streamingManager == null) {
-					Log.d(MixView.TAG, "Debug: MixView - mixContext.streamingManager: null");
-				} else {
-					Log.d(MixView.TAG, "Debug: MixView - mixContext.streamingManager: not null");
-				}
-			}
 			Log.d(MixView.TAG,"Debug: MixView - mixContext markerlist size: "+mixContext.streamingManager.layer.getMarkerCount());
 			streamingThread = new Thread(mixContext.streamingManager);
 			streamingThread.start();
@@ -718,12 +682,9 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 		dataView.clearEvents();
 		downloadThread = new Thread(mixContext.downloadManager);
 		downloadThread.start();
-		if (mixContext.streamingManager == null) {
-			Log.d(MixView.TAG,"Debug: MixView - mixContext.streamingManager is null");
-		} else {
-			streamingThread = new Thread(mixContext.streamingManager);
-//			streamingThread.start();
-		}
+		streamingThread = new Thread(mixContext.streamingManager);
+//		streamingThread.start();
+
 	};
 
 	private SeekBar.OnSeekBarChangeListener myZoomBarOnSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
