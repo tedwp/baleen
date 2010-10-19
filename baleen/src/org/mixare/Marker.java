@@ -72,6 +72,7 @@ public class Marker {
 	
 	private Bitmap bitmap= null;
 	private String userName = null;
+	private float distance =-1;
 	public Marker(String title, double latitude, double longitude, double altitude, String URL, Bitmap bitmap) {
 		super();
 
@@ -111,7 +112,10 @@ public class Marker {
 	}
 	
 
-
+	public void setDistance(float distance){
+		this.distance = distance;
+	}
+	
 	public String getTitle(){
 		return title;
 	}
@@ -228,11 +232,11 @@ public class Marker {
 		if (textBlock == null) {
 			if(userName != null){
 				textBlock = new TextObj(userName, title, Math.round(maxHeight / 2f) + 1,
-						160, dw);			
+						160, dw, this.distance);			
 			}
 			else{
 			textBlock = new TextObj(title, Math.round(maxHeight / 2f) + 1,
-					160, dw);
+					160, dw, this.distance);
 			}
 			
 		}
@@ -259,6 +263,7 @@ public class Marker {
 			int scaledRate = 1;
 			if(bitmap!=null){
 				scaledRate = (int) (48*(10f/dist+radius/20f));
+				if(dist<=3)scaledRate=200;
 				//scaledRate = (int) (24*(10f/dist+radius/10f));
 				resizedBitmap = Bitmap.createScaledBitmap(bitmap, scaledRate, scaledRate, true);
 			}

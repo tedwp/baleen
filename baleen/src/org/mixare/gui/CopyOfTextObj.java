@@ -23,14 +23,13 @@ import java.util.ArrayList;
 
 import android.graphics.Color;
 
-public class TextObj implements ScreenObj {
+public class CopyOfTextObj implements ScreenObj {
 	String txt;
 	float fontSize;
 	float width, height;
 	float areaWidth, areaHeight;
 	String lines[];
 	String lines4UserName[];
-	String lines4Distance[];
 	float lineWidths[];
 	float lineHeight;
 	float maxLineWidth;
@@ -38,42 +37,30 @@ public class TextObj implements ScreenObj {
 	int borderColor, bgColor, textColor;
 	
 	String userName = null;
-	String distanceStr = null;
-	
-	
 
-	public TextObj(String txtInit, float fontSizeInit, float maxWidth,
-			PaintScreen dw, float distance) {
+	public CopyOfTextObj(String txtInit, float fontSizeInit, float maxWidth,
+			PaintScreen dw) {
 		this(txtInit, fontSizeInit, maxWidth, Color.rgb(255, 255, 255), Color
 				.rgb(0, 0, 0), Color.rgb(255, 255, 255),
-				dw.getTextAsc() / 2, dw, distance);
+				dw.getTextAsc() / 2, dw);
 	}
 	
-	public TextObj(String userName, String txtInit, float fontSizeInit, float maxWidth,
-			PaintScreen dw, float distance) {
+	public CopyOfTextObj(String userName, String txtInit, float fontSizeInit, float maxWidth,
+			PaintScreen dw) {
 		this(userName, txtInit, fontSizeInit, maxWidth, Color.rgb(255, 255, 255), Color
 				.rgb(0, 0, 0), Color.rgb(255, 255, 255),
-				dw.getTextAsc() / 2, dw, distance);
+				dw.getTextAsc() / 2, dw);
 	}
 
-	public TextObj(String txtInit, float fontSizeInit, float maxWidth,
+	public CopyOfTextObj(String txtInit, float fontSizeInit, float maxWidth,
 			int borderColor, int bgColor, int textColor, float pad,
-			PaintScreen dw, float distance) {
+			PaintScreen dw) {
 		this.pad = pad;
 		this.bgColor = bgColor;
 		this.borderColor = borderColor;
 		this.textColor = textColor;
-		java.text.DecimalFormat   myformat=new   java.text.DecimalFormat( "#0.00 ");
-		this.distanceStr ="Distance:" + String.valueOf(myformat.format(distance/1000.0f)) + "km";
 
 		try {
-			prepTxt(this.distanceStr, fontSizeInit, maxWidth, dw);
-			this.lines4Distance = new String [this.lines.length];
-			for(int i = 0; i < this.lines.length; i++){
-				System.arraycopy(this.lines, 0, this.lines4Distance, 0, this.lines.length);
-			}
-			
-			
 			prepTxt(txtInit, fontSizeInit, maxWidth, dw);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -81,35 +68,24 @@ public class TextObj implements ScreenObj {
 		}
 	}
 	
-	public TextObj(String userName, String txtInit, float fontSizeInit, float maxWidth,
+	public CopyOfTextObj(String userName, String txtInit, float fontSizeInit, float maxWidth,
 			int borderColor, int bgColor, int textColor, float pad,
-			PaintScreen dw, float distance) {
+			PaintScreen dw) {
 		this.pad = pad;
 		this.bgColor = bgColor;
 		this.borderColor = borderColor;
 		this.textColor = textColor;
 		
 		this.userName = userName + ":";
-		java.text.DecimalFormat   myformat=new   java.text.DecimalFormat( "#0.00 ");
-		this.distanceStr ="Distance:" + String.valueOf(myformat.format(distance/1000.0f)) + "km";
-		
+		prepTxt(this.userName, fontSizeInit, maxWidth, dw);
+		this.lines4UserName = new  String [this.lines.length];
+		//this.lines4UserName = this.lines;
+		for(int i = 0; i < this.lines.length; i++){
+			System.arraycopy(this.lines, 0, this.lines4UserName, 0, this.lines.length);
+		}
+
 		try {
-			prepTxt(this.userName, fontSizeInit, maxWidth, dw);
-			this.lines4UserName = new  String [this.lines.length];
-			//this.lines4UserName = this.lines;
-			for(int i = 0; i < this.lines.length; i++){
-				System.arraycopy(this.lines, 0, this.lines4UserName, 0, this.lines.length);
-			}
-			
-			prepTxt(this.distanceStr, fontSizeInit, maxWidth, dw);
-			this.lines4Distance = new String [this.lines.length];
-			for(int i = 0; i < this.lines.length; i++){
-				System.arraycopy(this.lines, 0, this.lines4Distance, 0, this.lines.length);
-			}
-			
-			
 			prepTxt(txtInit, fontSizeInit, maxWidth, dw);
-			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			prepTxt("TEXT PARSE ERROR", 12, 200, dw);
@@ -174,15 +150,13 @@ public class TextObj implements ScreenObj {
 
 	public void paint(PaintScreen dw) {
 		areaWidth = maxLineWidth;
-		int distanceLine = this.lines4Distance.length;
+		
 		if(this.userName != null){
 			int nameLine = this.lines4UserName.length;
-			areaHeight = lineHeight * lines.length + lineHeight * nameLine + lineHeight*distanceLine;
+			areaHeight = lineHeight * lines.length + lineHeight * nameLine;
 		}
 		else{
 			areaHeight = lineHeight * lines.length;
-			areaHeight = lineHeight * lines.length + lineHeight*distanceLine;
-
 		}
 
 
@@ -219,46 +193,18 @@ public class TextObj implements ScreenObj {
 
 		
 		
-		dw.setColor(textColor);
+	dw.setColor(textColor);
 		
-		if(this.userName != null){
-			int nameLine = this.lines4UserName.length;
-			String line = null;
-			float pos = pad + lineHeight * nameLine  + dw.getTextAsc();
-			for (int i = 0; i < lines.length; i++) {
-				line = lines[i];
-				//dw.paintText(pad, pad + lineHeight * nameLine + lineHeight * i + dw.getTextAsc(), line);
-				dw.paintText(pad, pos+lineHeight * i , line);
-
-
+		for (int i = 0; i < lines.length; i++) {
+			String line = lines[i];
+			if(this.userName != null){
+				int nameLine = this.lines4UserName.length;
+				dw.paintText(pad, pad + lineHeight * nameLine + lineHeight * i + dw.getTextAsc(), line);
 			}
-			dw.setColor(Color.RED);
-			pos = pos + lineHeight*lines.length;
-			for (int i = 0; i < this.lines4Distance.length; i++) {
-				line = this.lines4Distance[i];
-				dw.paintText(pad, pos + lineHeight*i, line);
+			else{
+				dw.paintText(pad, pad + lineHeight * i + dw.getTextAsc(), line);
 			}
 		}
-		else{
-			String line = null;
-			float pos =  pad + dw.getTextAsc();
-			for (int i = 0; i < lines.length; i++) {
-				line = lines[i];
-
-				dw.paintText(pad, pos + lineHeight * i, line);
-			}
-			dw.setColor(Color.RED);
-			pos = pos + lineHeight*lines.length;
-			for (int i = 0; i < this.lines4Distance.length; i++) {
-				line = this.lines4Distance[i];
-				dw.paintText(pad, pos + lineHeight * i, line);
-			}
-		}
-		
-
-		
-		
-		
 	}
 
 	public float getWidth() {
