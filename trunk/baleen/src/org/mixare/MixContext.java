@@ -43,6 +43,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -70,6 +71,7 @@ public class MixContext {
 	LocationManager locationMgr;
 	
 	public MixContext(Context appCtx) {
+		Log.d(MixView.TAG, "Debug: MixView - mixContext entered");
 		this.mixView = (MixView) appCtx;
 		this.ctx = appCtx.getApplicationContext();
 

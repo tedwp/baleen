@@ -258,8 +258,8 @@ public class Marker {
 			Bitmap resizedBitmap = null;
 			int scaledRate = 1;
 			if(bitmap!=null){
-				//int scaledRate = (int) (24*(1+dist/10));
-				scaledRate = (int) (24*(10f/dist+radius/10f));
+				scaledRate = (int) (48*(10f/dist+radius/20f));
+				//scaledRate = (int) (24*(10f/dist+radius/10f));
 				resizedBitmap = Bitmap.createScaledBitmap(bitmap, scaledRate, scaledRate, true);
 			}
 			

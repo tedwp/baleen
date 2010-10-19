@@ -300,7 +300,8 @@ public class DataView {
 			 //luo if (dist[0] / 1000f < radius) {
 			String dataSource = MixListView.getDataSource();
 			if("Streaming".equals(dataSource)){//if dataSource is Streaming,use changed mode
-			 if ( (dist[0] / 1000f >= radius) && (dist[0] / 1000f < 80)) {
+			// if ( (dist[0] / 1000f >= radius) && (dist[0] / 1000f < 80)) {
+				if (dist[0] / 1000f < radius) {
 				if (!frozen) 
 					ma.update(curFix, System.currentTimeMillis());
 				ma.calcPaint(cam, addX, addY);
