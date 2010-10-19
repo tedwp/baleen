@@ -305,6 +305,7 @@ public class DataView {
 				if (!frozen) 
 					ma.update(curFix, System.currentTimeMillis());
 				ma.calcPaint(cam, addX, addY);
+				ma.setDistance(dist[0]);
 				 ma.draw(dw, radius, dist[0] / 1000f, dataSource);
 			 }
 			}else {//if dataSource is Wiki, Buzz or Twitter, use original mode
@@ -312,6 +313,7 @@ public class DataView {
 					if (!frozen) 
 						ma.update(curFix, System.currentTimeMillis());
 					ma.calcPaint(cam, addX, addY);
+					ma.setDistance(dist[0]);
 					ma.draw(dw, radius, dist[0] / 1000f, dataSource);
 				}
 			}
