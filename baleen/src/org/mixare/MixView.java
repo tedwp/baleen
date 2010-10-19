@@ -270,8 +270,8 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 					Gravity.BOTTOM));
 
 			if (!isInited) {
+				Log.d(MixView.TAG, "Debug: MixView - isInited entered");
 				mixContext = new MixContext(this);
-				Log.d(MixView.TAG, "Debug: MixView - mixContext entered");
 
 				mixContext.downloadManager = new DownloadManager(mixContext);
 				mixContext.streamingManager = new PrintFilterStream(mixContext);
@@ -489,8 +489,10 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 			}
 			downloadThread = new Thread(mixContext.downloadManager);
 			downloadThread.start();
+			Log.d(MixView.TAG,"Debug: MixView - mixContext markerlist size: "+mixContext.streamingManager.layer.getMarkerCount());
 			streamingThread = new Thread(mixContext.streamingManager);
 			streamingThread.start();
+
 		} catch (Exception ex) {
 			doError(ex);
 			try {
@@ -681,7 +683,7 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 		downloadThread = new Thread(mixContext.downloadManager);
 		downloadThread.start();
 		streamingThread = new Thread(mixContext.streamingManager);
-		streamingThread.start();
+//		streamingThread.start();
 
 	};
 
@@ -861,6 +863,13 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 			searchNotificationTxt = null;
 		}
 		return false;
+	}
+	
+	@Override
+	protected void onStop() {
+		Log.d(MixView.TAG, "Debug: onStop entered");
+		super.onStart();
+		mixContext.streamingManager.twitterStream.cleanup();
 	}
 }
 

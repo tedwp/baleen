@@ -26,7 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.mixare;
 
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.mixare.data.JsonT4j;
@@ -68,13 +70,22 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
     Double lat;
     Double lon;
     String imageURL;
+    
+//    String[][] account;
+    Map<String, String> acc;
+    Iterator<String> iter;
 
     public PrintFilterStream(MixContext ctx) {
     	Log.d(MixView.TAG, "Debug: PrintFilterStream entered");
     	this.ctx = ctx;
         String filter;
         String track;
-    //    twitterStream = new TwitterStreamFactory(this).getInstance("luohehe", "mantou1225");
+        acc = new HashMap<String, String>();
+        // Backup Account
+        acc.put("tristiaapp", "mjkluio789");
+        acc.put("baleenapp", "mjkluio789");
+        iter = acc.keySet().iterator();
+//        twitterStream = new TwitterStreamFactory(this).getInstance("tristiaapp", "mjkluio789");
         twitterStream = new TwitterStreamFactory(this).getInstance("baleenapp", "mjkluio789");
 /*        String[] filterSplit = filter.split(",");
         filterArray = new int[filterSplit.length];
@@ -83,7 +94,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
 
         }*/
         query = new FilterQuery();
-        layer.createMarker("layer default marker 1", 36.8, -122.75, 0, null);
+//        layer.createMarker("layer default marker 1", 36.8, -122.75, 0, null);
 //        layer.createMarker("Marker 1 at Melbourne", -38.2, 144.5, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
         
@@ -99,7 +110,7 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
 
 	public void run() {
     	Log.d(MixView.TAG, "Debug: PrintFilterStream - run entered");
-    	layer.createMarker("layer default marker 2", 37.8, -121.75, 0, null);
+//    	layer.createMarker("layer default marker 2", 37.8, -121.75, 0, null);
 //    	layer.createMarker("Marker 2 at Melbourne", -38.2, 145.2, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
         
@@ -123,13 +134,21 @@ public final class PrintFilterStream extends StatusAdapter implements Runnable {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Log.d(MixView.TAG, "Debug: PrintFilterStream - run -  TwitterException entered");
+			if(iter.hasNext()){
+				String accName = iter.next();
+				String accPsw = acc.get(accName);
+				twitterStream = new TwitterStreamFactory(this).getInstance(accName, accPsw);
+				this.run();
+			}
+			Log.d(MixView.TAG, "Debug: PrintFilterStream - run -  TwitterException left");
 		}
     }
 
     private void startConsuming(double initLat, double initLon) throws TwitterException {
         // filter() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
     	Log.d(MixView.TAG, "Debug: PrintFilterStream - startConsuming entered");
-    	layer.createMarker("layer default marker 3", 37.7, -121.95, 0, null);
+//    	layer.createMarker("layer default marker 3", 37.7, -121.95, 0, null);
 //    	layer.createMarker("Marker 3 at Melbourne", -37.4, 145.2, 0, null);
         System.out.println("layer default markerList size: "+layer.getMarkerCount());
     	twitterStream.setStatusListener(this);
