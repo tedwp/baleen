@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name">Mixare</string>
+    <string name="app_name">Baleen Beta</string>
     <string name="search_hint">Suche Ort</string>
     
     <string name="N">N</string>

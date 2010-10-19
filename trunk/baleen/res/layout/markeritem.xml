@@ -2,22 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="wrap_content">
 
-        <ImageView  
-            android:id="@+id/icon"
-            android:layout_width="48dip"
-            android:layout_height="48dip" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="left"
+            android:layout_width="88dip"
+            android:layout_height="88dip"
+            android:layout_weight="1">
+                   
+            <ImageView  
+                  android:id="@+id/icon"
+                  android:gravity="center_vertical"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+                  
+        </LinearLayout>
+          
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="left"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
   
-
-
-        <TextView 
-            android:id="@+id/text"
-            android:layout_gravity="center_vertical"
-            android:layout_width="0dip"
-            android:layout_weight="1.0"
-            android:layout_height="wrap_content" 
-            android:textSize="22sp"/>
+            <TextView 
+                  android:id="@+id/userName"
+                  android:layout_gravity="left"
+                  android:gravity="left"
+                  android:layout_width="fill_parent"
+                  android:layout_weight="1.0"
+                  android:layout_height="wrap_content" 
+                  android:textSize="22sp"/>
+            
+            <TextView 
+                  android:id="@+id/text"
+                  android:layout_gravity="left"
+                  android:gravity="left"
+                  android:layout_width="fill_parent"
+                  android:layout_weight="1.0"
+                  android:layout_height="wrap_content" 
+                  android:textSize="22sp"/>
+            
+        </LinearLayout>
     
 </LinearLayout>
-
